@@ -1,0 +1,37 @@
+.ant-row.ant-form-item:not(.result) {
+  box-shadow: rgb(238, 238, 238) 0px 2px 4px;
+  border-radius: 6px;
+  padding: 15px 30px !important;
+  border: 1px solid white;
+  background: white;
+  transition: 0.3s ease all;
+  &:hover {
+    border-color: rgba(64, 169, 255, 0.2);
+    box-shadow: rgba(64, 169, 255, 0.2) 0px 2px 4px;
+  }
+  label {
+    font-weight: bold;
+  }
+}
+.ant-row.ant-form-item.result {
+  border-radius: 6px;
+  padding: 15px 30px !important;
+  border: 1px solid white;
+  background: rgba(3, 34, 247, 1);
+  transition: 0.3s ease all;
+  .ant-statistic-title,
+  .ant-statistic-content {
+    color: white;
+  }
+  .ant-statistic-title {
+    font-weight: bold;
+  }
+  &:hover {
+    background: rgba(3, 34, 247, 0.8);
+    cursor: pointer;
+  }
+}
+.ant-input-number.ant-input-number-lg,
+.ant-select.ant-select-lg {
+  width: 100% !important;
+}
