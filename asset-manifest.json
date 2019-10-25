@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ReactCalc/static/css/main.72d9b7ed.chunk.css",
-    "main.js": "/ReactCalc/static/js/main.26f82f66.chunk.js",
-    "main.js.map": "/ReactCalc/static/js/main.26f82f66.chunk.js.map",
+    "main.js": "/ReactCalc/static/js/main.428b0788.chunk.js",
+    "main.js.map": "/ReactCalc/static/js/main.428b0788.chunk.js.map",
     "runtime~main.js": "/ReactCalc/static/js/runtime~main.83d42b80.js",
     "runtime~main.js.map": "/ReactCalc/static/js/runtime~main.83d42b80.js.map",
     "static/css/2.5425ee92.chunk.css": "/ReactCalc/static/css/2.5425ee92.chunk.css",
     "static/js/2.2283f630.chunk.js": "/ReactCalc/static/js/2.2283f630.chunk.js",
     "static/js/2.2283f630.chunk.js.map": "/ReactCalc/static/js/2.2283f630.chunk.js.map",
     "index.html": "/ReactCalc/index.html",
-    "precache-manifest.e7e38041148674cc6b68e5520d1f09c3.js": "/ReactCalc/precache-manifest.e7e38041148674cc6b68e5520d1f09c3.js",
+    "precache-manifest.3dcc5ed2cf061af5725ec620fe5d7cf2.js": "/ReactCalc/precache-manifest.3dcc5ed2cf061af5725ec620fe5d7cf2.js",
     "service-worker.js": "/ReactCalc/service-worker.js",
     "static/css/2.5425ee92.chunk.css.map": "/ReactCalc/static/css/2.5425ee92.chunk.css.map",
     "static/css/main.72d9b7ed.chunk.css.map": "/ReactCalc/static/css/main.72d9b7ed.chunk.css.map",
