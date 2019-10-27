@@ -14,6 +14,16 @@ const App = props => {
     // labelCol: { span: 12 },
     // wrapperCol: { span: 12 }
   };
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+
+  //   script.src = "https://loangraphs.activehosted.com/f/embed.php?id=3";
+  //   script.async = true;
+  //   document.body.appendChild(script);
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
 
   const { Title } = Typography;
 
@@ -24,20 +34,9 @@ const App = props => {
   const [mi, setMi] = useState(0.0085); // MI Rate //  Number
   const [interest, setInterest] = useState(0.035); // Interest rate // Number
   const [tom, setTom] = useState(30);
-  const [term, setTerm] = useState(30); // Dropdown for 10 15 20 30
   const [frontDti, setFrontDti] = useState(0.28);
   const [backDti, setBackDti] = useState(0.41); //  Dropdown for 49.99% or 41% or 56.99%
 
-  // Results
-  const [maxMonthlyPayment, setMaxMonthlyPayment] = useState(0); // mpi * frontDTI
-  const [monthlyPropertyTaxes, setMonthlyPropertyTaxes] = useState(0);
-  const [maxMonthlyPaymentNoTaxes, setMaxMonthlyPaymentNoTaxes] = useState(0);
-  const [maxBackendPayment, setMaxBackendPayment] = useState(0);
-  const [
-    maxBackendPaymentPercantage,
-    setMaxBackendPaymentPercantage
-  ] = useState(0);
-  const [isPayment, setIsPayment] = useState(true);
   // Calculations
 
   // handleChanges
@@ -61,9 +60,6 @@ const App = props => {
   };
 
   const { Option } = Select;
-  const handleTerm = value => {
-    setTerm(value);
-  };
 
   const handleFrontDti = value => {
     setFrontDti(parseFloat((value / 100).toFixed(4)));
@@ -98,40 +94,7 @@ const App = props => {
   const getFinalLoan = () => {
     return getPV(interest / 12, tom * 12, -getM3() + getMonthlyMI()) * -1;
   };
-  /*
-  const getMonthlyPropertyTaxes = () => {
-    return parseFloat((apt / 12).toFixed(2));
-  };
-  const getMaxMonthlyPaymentNoTaxes = () => {
-    return parseFloat(
-      (getMaxMonthlyPayment() - getMonthlyPropertyTaxes()).toFixed(2)
-    );
-  };
 
-  const getMaxBackendPayment = () => {
-    return parseFloat((getMaxMonthlyPaymentNoTaxes() + mbeu).toFixed(2));
-  };
-
-  const getMaxBackendPaymentPercent = () => {
-    const results = parseFloat((getMaxBackendPayment() / mpi).toFixed(4) * 100);
-    return results;
-  };
-
-  const getMaxPaymentOrLoan = () => {
-    const PV = getPV(mi / 12, term * 12, getMaxMonthlyPaymentNoTaxes());
-    if (getMaxBackendPaymentPercent() < backDti * 100) {
-      if (!isPayment) {
-        setIsPayment(true);
-      }
-      return `Maximum payment: ${formatter.format(PV)}`;
-    } else if (getMaxBackendPaymentPercent() > backDti * 100) {
-      if (isPayment) {
-        setIsPayment(false);
-      }
-      return `Maximum Loan: ${formatter.format(PV)}`;
-    }
-  };
-*/
   return (
     <>
       <div className="container">
@@ -243,15 +206,18 @@ const App = props => {
           </Form.Item>
 
           <Form.Item label="MI Rate" {...formItemLayout}>
-            <InputNumber
+            <Select
               size="large"
-              // handleMI : MI Rate
               defaultValue={0.85}
-              step={0.125}
-              formatter={value => `${value}%`}
-              parser={value => value.replace("%", "")}
+              style={{ width: 88 }}
               onChange={handleMI}
-            />
+            >
+              <Option value={0.125}>0.125</Option>
+              <Option value={0.35}>0.35 USDA</Option>
+              <Option value={0.5}>0.50</Option>
+              <Option value={0.85}>0.85 FHA</Option>
+              <Option value={1.0}>1.0</Option>
+            </Select>
           </Form.Item>
 
           <Form.Item className="result" {...formItemLayout}>
@@ -261,68 +227,52 @@ const App = props => {
             />
           </Form.Item>
 
-          {/* <Form.Item label="Term" {...formItemLayout}>
-            <Select
-              defaultValue={30}
-              style={{ width: 88 }}
-              onChange={handleTerm}
-            >
-              <Option value={10}>10</Option>
-              <Option value={15}>15</Option>
-              <Option value={20}>20</Option>
-              <Option value={30}>30</Option>
-            </Select>
+          {/* <Form.Item>
+          <div className="_form_3"></div>
           </Form.Item> */}
         </Form>
-
-        {/*  
-        <ul className="results">
-          <li>
-            Maximum Monthly Payment:{" "}
-            <strong>{formatter.format(getMaxMonthlyPayment())}</strong>
-          </li>
-          <li>
-            Monthly Property Taxes:{" "}
-            <strong>{formatter.format(getMonthlyPropertyTaxes())}</strong>
-          </li>
-          <li>
-            Max monthly payment minus taxes:{" "}
-            <strong>{formatter.format(getMaxMonthlyPaymentNoTaxes())}</strong>
-          </li>
-
-          <li>
-            Maxmimum Backend Payment:{" "}
-            <strong>{formatter.format(getMaxBackendPayment())}</strong>
-          </li>
-
-          <li>
-            Maximum backend payment percent :{" "}
-            <strong>{getMaxBackendPaymentPercent()}%</strong>
-          </li>
-          <li className="result">{getMaxPaymentOrLoan()}</li>
-        </ul>
-        <div className="test">
-          <p>
-            Test 2: IF line 21 is GREATER than 11 then show result line as
-            "Maximum loan" <strong>{backDti * mpi}</strong>
-          </p>
-          <p>
-            <strong>{(backDti * mpi - apt / 12 - mbeu).toFixed(4)}</strong>{" "}
-            subtract out property taxes and monthly bills
-          </p>
-          <p>
-            If line 28 then calculate and show result as "Maximum loan" ::{" "}
-            <strong>
-              {formatter.format(
-                getPV(
-                  mi / 12,
-                  term * 12,
-                  (backDti * mpi - apt / 12 - mbeu).toFixed(4)
-                )
-              )}
-            </strong>
-          </p>
-        </div> */}
+        <Form.Item>
+          <form
+            method="POST"
+            action="https://loangraphs.activehosted.com/proc.php"
+            id="_form_3_"
+            className="_form _form_3 _inline-form  _dark"
+            noValidate
+          >
+            <input type="hidden" name="u" value="3" />
+            <input type="hidden" name="f" value="3" />
+            <input type="hidden" name="s" />
+            <input type="hidden" name="c" value="0" />
+            <input type="hidden" name="m" value="0" />
+            <input type="hidden" name="act" value="sub" />
+            <input type="hidden" name="v" value="2" />
+            <div className="_form-content">
+              <div className="_form_element _x03902238 _full_width _clear">
+                <div className="_html-code">
+                  <p>Close More Loans. Sign up for a Demo of LoanGraphs.</p>
+                </div>
+              </div>
+              <div className="_form_element _x92094134 _full_width ">
+                <label className="_form-label"></label>
+                <div className="_field-wrapper">
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder="Type your email"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="_button-wrapper _full_width">
+                <button id="_form_3_submit" className="_submit" type="submit">
+                  Submit
+                </button>
+              </div>
+              <div className="_clear-element"></div>
+            </div>
+            <div className="_form-thank-you" style={{ display: "none" }}></div>
+          </form>
+        </Form.Item>
       </div>
     </>
   );
